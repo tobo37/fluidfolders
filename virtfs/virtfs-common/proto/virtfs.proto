@@ -1,0 +1,10 @@
+import "google/protobuf/empty.proto";
+syntax = "proto3";
+
+service Virtfs {
+  rpc ListLayouts (google.protobuf.Empty) returns (LayoutList);
+  rpc SetLayout (LayoutName) returns (google.protobuf.Empty);
+}
+
+message LayoutName { string name = 1; }
+message LayoutList { repeated string names = 1; }
