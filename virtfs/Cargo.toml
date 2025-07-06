@@ -1,0 +1,4 @@
+# virtfs/Cargo.toml (workspace)
+[workspace]
+members = ["virtfsd", "virtfs-gui", "virtfs-common"]
+resolver = "2"
