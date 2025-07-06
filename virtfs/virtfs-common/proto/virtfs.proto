@@ -1,5 +1,5 @@
-import "google/protobuf/empty.proto";
 syntax = "proto3";
+import "google/protobuf/empty.proto";
 
 service Virtfs {
   rpc ListLayouts (google.protobuf.Empty) returns (LayoutList);
