@@ -6,6 +6,9 @@ Diese Anleitung beschreibt, wie du das Projekt lokal einrichtest, baust und test
 
 * Eine aktuelle [Rust](https://www.rust-lang.org/tools/install) Installation (empfohlen via `rustup`)
 * Je nach Plattform weitere Abhängigkeiten für Tauri, z.B. Node.js
+* Unter Linux zusätzlich die Systembibliotheken
+  `pkg-config`, `libfuse3-dev`, `libglib2.0-dev` und `libwebkit2gtk-4.1-dev`
+  (z.B. via `sudo apt install pkg-config libfuse3-dev libglib2.0-dev libwebkit2gtk-4.1-dev`)
 
 ## Repository klonen
 

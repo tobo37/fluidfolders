@@ -3,3 +3,4 @@
 **/target/
 **/*.rs.bk
 virtfs/virtfs-common/src/virtfs.rs
+virtfs/virtfs-common/src/_.rs
