@@ -4,3 +4,8 @@ version = "0.1.0"
 edition = "2024"
 
 [dependencies]
+fuser = "0.14"
+tokio = { version = "1", features = ["rt-multi-thread", "signal"] }
+tonic = "0.11"
+serde = { version = "1", features = ["derive"] }
+virtfs-common = { path = "../virtfs-common" }

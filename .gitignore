@@ -1,0 +1,5 @@
+/virtfs/target/
+/virtfs/Cargo.lock
+**/target/
+**/*.rs.bk
+virtfs/virtfs-common/src/virtfs.rs
