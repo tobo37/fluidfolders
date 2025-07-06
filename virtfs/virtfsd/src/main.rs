@@ -1,13 +1,14 @@
 use fuser::{Filesystem, MountOption, ReplyDirectory, Request};
-use std::{ffi::OsStr, path::PathBuf};
+use std::path::PathBuf;
 use tokio::{signal, task};
-use virtfs_common::virtfs_server::{Virtfs, VirtfsServer};
-use virtfs_common::{LayoutList, LayoutName};
+use tokio_stream::wrappers::UnixListenerStream;
+use virtfs_common::virtfs::virtfs_server::{Virtfs, VirtfsServer};
+use virtfs_common::virtfs::{LayoutList, LayoutName};
 
 struct Vfs;
 
 impl Filesystem for Vfs {
-    fn readdir(&mut self, _req: &Request<'_>, _ino: u64, _fh: u64, _offset: i64, mut reply: ReplyDirectory) {
+    fn readdir(&mut self, _req: &Request<'_>, _ino: u64, _fh: u64, _offset: i64, reply: ReplyDirectory) {
         reply.ok();
     }
 }
@@ -22,7 +23,12 @@ async fn main() -> anyhow::Result<()> {
     let fs = Vfs;
 
     let fuse_task = task::spawn_blocking(move || {
-        fuser::mount2(fs, &mountpoint, &[MountOption::FSName("virtfs"), MountOption::RO]).unwrap();
+        fuser::mount2(
+            fs,
+            &mountpoint,
+            &[MountOption::FSName("virtfs".to_string()), MountOption::RO],
+        )
+        .unwrap();
     });
 
     struct RpcSvc;
@@ -40,7 +46,7 @@ async fn main() -> anyhow::Result<()> {
     let uds = tokio::net::UnixListener::bind("/tmp/virtfs.sock")?;
     let grpc = tonic::transport::Server::builder()
         .add_service(VirtfsServer::new(RpcSvc))
-        .serve_with_incoming(tokio_stream::wrappers::UnixListenerStream::new(uds));
+        .serve_with_incoming(UnixListenerStream::new(uds));
 
     tokio::select! {
         _ = fuse_task => {},
